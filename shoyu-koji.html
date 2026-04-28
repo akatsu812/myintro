@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>手作り醤油麹 | 10分の漬け込みで、料亭の味。</title>
+  <meta name="description" content="無添加・手作りの醤油麹。発酵の力で素材の旨味を最大限に引き出します。忙しい毎日でも、漬けて焼くだけで本格的な味わいに。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brown-deep: #3a1f0d;
+      --brown: #4a2c17;
+      --brown-mid: #6b4226;
+      --brown-light: #8b6343;
+      --kinari: #f5eed6;
+      --kinari-dark: #e8dfc5;
+      --beige: #faf6ec;
+      --white: #faf8f3;
+      --gold: #b8943a;
+      --gold-light: #d4af6b;
+      --green: #3d5a35;
+      --green-light: #5a7a4e;
+      --ink: #2a2016;
+      --ink-soft: #4a3f33;
+      --ink-light: #7a7060;
+      --font-serif: 'Zen Old Mincho', serif;
+      --font-sans: 'Noto Sans JP', sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-sans); background: var(--white); color: var(--ink-soft); line-height: 1.8; overflow-x: hidden; }
+
+    /* ===== HERO ===== */
+    #hero {
+      position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, rgba(58,31,13,0.7) 0%, rgba(74,44,23,0.85) 100%);
+      overflow: hidden;
+    }
+    #hero-bg {
+      position: absolute; inset: 0; z-index: -1;
+      background: url('images/fish-marinating.png') center/cover no-repeat;
+    }
+    .hero-inner { position: relative; text-align: center; padding: 100px 24px 80px; max-width: 700px; }
+    .hero-label {
+      font-family: var(--font-serif); font-size: 0.8rem; color: var(--kinari);
+      letter-spacing: 0.4em; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp .8s .1s ease-out forwards;
+    }
+    .hero-catch {
+      font-family: var(--font-serif); font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 700;
+      color: #fff; line-height: 1.4; margin-bottom: 20px; letter-spacing: 0.05em;
+      text-shadow: 0 4px 30px rgba(0,0,0,.4);
+      opacity: 0; animation: fadeUp .9s .3s ease-out forwards;
+    }
+    .hero-sub {
+      font-size: clamp(.9rem, 2.5vw, 1.05rem); color: rgba(255,255,255,.85); font-weight: 300;
+      line-height: 2; margin-bottom: 36px;
+      opacity: 0; animation: fadeUp .9s .5s ease-out forwards;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      opacity: 0; animation: fadeUp .9s .7s ease-out forwards;
+    }
+    .hero-tag {
+      padding: 6px 18px; border: 1px solid rgba(255,255,255,.4); border-radius: 100px;
+      font-size: .78rem; color: rgba(255,255,255,.9); background: rgba(255,255,255,.1);
+      backdrop-filter: blur(8px); letter-spacing: .06em;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeIn 1s 1.5s ease forwards;
+    }
+    .scroll-hint span { font-size: .7rem; color: rgba(255,255,255,.5); letter-spacing: .2em; }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ===== SECTIONS COMMON ===== */
+    .section { position: relative; padding: clamp(60px,10vw,120px) clamp(20px,5vw,60px); }
+    .section-inner { max-width: 820px; margin: 0 auto; }
+    .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .section-num { font-family: var(--font-serif); font-size: .72rem; color: var(--gold); letter-spacing: .25em; font-weight: 700; }
+    .section-line { flex: 1; max-width: 50px; height: 1px; background: linear-gradient(to right, var(--gold), transparent); }
+    .section-title {
+      font-family: var(--font-serif); font-size: clamp(1.6rem,4vw,2.4rem); font-weight: 700;
+      color: var(--brown-deep); line-height: 1.4; margin-bottom: 28px; letter-spacing: .04em;
+    }
+    .section-title em { font-style: normal; color: var(--brown-mid); border-bottom: 3px solid var(--kinari-dark); }
+    .section-body { font-size: clamp(.92rem,2vw,1rem); color: var(--ink-soft); line-height: 2.1; }
+
+    /* ===== REVEAL ===== */
+    .reveal { opacity: 0; transform: translateY(35px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(.92); transition: opacity .7s ease, transform .7s ease; }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+    .delay-1 { transition-delay: .1s; } .delay-2 { transition-delay: .2s; } .delay-3 { transition-delay: .3s; } .delay-4 { transition-delay: .4s; }
+
+    /* ===== SEC2: WHAT IS ===== */
+    #what-is { background: var(--beige); }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; margin-top: 36px; }
+    .feature-card {
+      background: #fff; border: 1px solid rgba(74,44,23,.08); border-radius: var(--radius-lg);
+      padding: 28px 22px; text-align: center; transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+      transition: none;
+    }
+    .feature-card:hover::after { left: 100%; transition: left .6s ease; }
+    .feature-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 16px 40px rgba(74,44,23,.12); }
+    .feature-icon { font-size: 2.2rem; margin-bottom: 14px; display: inline-block; transition: transform .3s; }
+    .feature-card:hover .feature-icon { transform: scale(1.2) rotate(-8deg); }
+    .feature-card h3 { font-family: var(--font-serif); font-size: .95rem; color: var(--brown-deep); margin-bottom: 10px; }
+    .feature-card p { font-size: .88rem; color: var(--ink-light); line-height: 1.8; }
+
+    /* ===== SEC3: SIZZLE ===== */
+    #sizzle { background: linear-gradient(180deg, var(--brown-deep) 0%, #2a1808 100%); color: #fff; }
+    #sizzle .section-num { color: var(--gold-light); }
+    #sizzle .section-title { color: #fff; }
+    #sizzle .section-title em { color: var(--gold-light); border-color: rgba(212,175,107,.3); }
+    .sizzle-img {
+      width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius-lg);
+      margin: 32px 0; box-shadow: 0 16px 48px rgba(0,0,0,.4);
+      transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s;
+    }
+    .sizzle-img:hover { transform: scale(1.03); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+    .sizzle-text { font-size: clamp(.95rem,2vw,1.05rem); color: rgba(255,255,255,.85); line-height: 2.2; }
+    .sizzle-text strong { color: var(--gold-light); }
+
+    /* ===== SEC4: STORY ===== */
+    #story { background: var(--kinari); }
+    .story-grid { display: grid; grid-template-columns: 200px 1fr; gap: 36px; align-items: start; margin-top: 32px; }
+    .story-portrait {
+      width: 200px; height: 260px; object-fit: cover; border-radius: var(--radius-lg);
+      box-shadow: 0 8px 24px rgba(74,44,23,.15);
+    }
+    .story-text { font-size: .95rem; color: var(--ink-soft); line-height: 2.2; }
+    .story-text p + p { margin-top: 16px; }
+    .story-signature { margin-top: 20px; font-family: var(--font-serif); font-size: 1.1rem; color: var(--brown); }
+
+    /* ===== SEC5: GUIDE ===== */
+    #guide { background: var(--beige); }
+    .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; margin-top: 36px; }
+    .recipe-card {
+      background: #fff; border-radius: var(--radius-lg); overflow: hidden;
+      border: 1px solid rgba(74,44,23,.06); text-align: center;
+      transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;
+    }
+    .recipe-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(74,44,23,.12); }
+    .recipe-img {
+      width: 100%; height: 160px; object-fit: cover;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .recipe-card:hover .recipe-img { transform: scale(1.08); }
+    .recipe-content { padding: 20px 18px 24px; }
+    .recipe-emoji { font-size: 2.4rem; margin-bottom: 14px; }
+    .recipe-card h3 { font-family: var(--font-serif); font-size: .95rem; color: var(--brown-deep); margin-bottom: 8px; }
+    .recipe-card p { font-size: .85rem; color: var(--ink-light); line-height: 1.8; }
+    .recipe-tag {
+      display: inline-block; margin-top: 12px; padding: 3px 12px; border-radius: 100px;
+      font-size: .7rem; color: var(--brown-mid); background: var(--kinari); letter-spacing: .08em;
+    }
+
+    /* ===== SEC6: PRODUCT ===== */
+    #product { background: var(--white); }
+    .product-table { width: 100%; margin-top: 32px; border-collapse: collapse; }
+    .product-table th, .product-table td {
+      padding: 16px 20px; text-align: left; border-bottom: 1px solid rgba(74,44,23,.1);
+      font-size: .92rem;
+    }
+    .product-table th {
+      font-family: var(--font-serif); font-weight: 700; color: var(--brown-deep);
+      width: 140px; background: rgba(245,238,214,.4);
+    }
+    .product-table td { color: var(--ink-soft); }
+    .price-highlight { font-family: var(--font-serif); font-size: 1.6rem; color: var(--brown); font-weight: 700; }
+    .price-tax { font-size: .8rem; color: var(--ink-light); margin-left: 4px; }
+
+    /* ===== SEC7: CTA ===== */
+    #cta {
+      background: linear-gradient(160deg, var(--brown-deep) 0%, #2a1808 60%, var(--brown) 100%);
+      color: #fff; text-align: center;
+    }
+    #cta .section-title { color: #fff; }
+    .cta-sub { font-size: 1rem; color: rgba(255,255,255,.8); margin-bottom: 40px; line-height: 2; }
+    .cta-buttons { display: flex; flex-direction: column; gap: 16px; max-width: 400px; margin: 0 auto; }
+    .cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 18px 28px; border-radius: var(--radius); font-size: 1rem; font-weight: 700;
+      text-decoration: none; transition: transform .3s, box-shadow .3s; letter-spacing: .06em;
+      cursor: pointer; border: none;
+    }
+    .cta-btn-line { background: #06C755; color: #fff; }
+    .cta-btn-line:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(6,199,85,.35); }
+    .cta-btn-form { background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+    .cta-btn-form:hover { background: rgba(255,255,255,.2); transform: translateY(-3px); }
+    .cta-btn-ask { background: transparent; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2); font-weight: 400; font-size: .9rem; }
+    .cta-btn-ask:hover { color: #fff; border-color: rgba(255,255,255,.5); }
+    .cta-note { margin-top: 24px; font-size: .78rem; color: rgba(255,255,255,.45); }
+    .cta-btn-icon { font-size: 1.3rem; }
+
+    /* ===== FLOATING CTA ===== */
+    .float-cta {
+      position: fixed; bottom: 20px; right: 20px; z-index: 900;
+      padding: 14px 24px; border-radius: 100px; background: var(--brown); color: #fff;
+      font-size: .85rem; font-weight: 700; text-decoration: none; letter-spacing: .06em;
+      box-shadow: 0 6px 20px rgba(58,31,13,.35);
+      transition: transform .3s, box-shadow .3s, opacity .4s;
+      opacity: 0; pointer-events: none;
+      animation: floatPulse 3s ease-in-out infinite;
+    }
+    .float-cta.show { opacity: 1; pointer-events: auto; }
+    .float-cta:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 30px rgba(58,31,13,.45); }
+    @keyframes floatPulse { 0%,100% { box-shadow: 0 6px 20px rgba(58,31,13,.35); } 50% { box-shadow: 0 8px 28px rgba(58,31,13,.5); } }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center; padding: 32px 20px;
+      background: var(--brown-deep); color: rgba(255,255,255,.4); font-size: .75rem;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollPulse {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; } 100% { background-position: 200% 0; }
+    }
+    .hero-catch { background: linear-gradient(90deg, #fff 40%, var(--gold-light) 50%, #fff 60%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s 1.5s linear infinite, fadeUp .9s .3s ease-out forwards; }
+    .section-title em { transition: color .3s; }
+    .section-title:hover em { color: var(--gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .story-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+      .story-portrait { width: 160px; height: 210px; }
+      .product-table th { width: 100px; }
+      .cta-buttons { padding: 0 12px; }
+      .float-cta { bottom: 14px; right: 14px; padding: 12px 18px; font-size: .8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div id="hero-bg"></div>
+    <div class="hero-inner">
+      <p class="hero-label">— 手 作 り 醤 油 麹 —</p>
+      <h1 class="hero-catch">10分の漬け込みで、<br>料亭の味。</h1>
+      <p class="hero-sub">忙しい毎日でも、漬けて焼くだけ。<br>発酵の力が、素材の旨味を最大限に引き出します。</p>
+      <div class="hero-tags">
+        <span class="hero-tag">🫙 完全無添加</span>
+        <span class="hero-tag">🔥 発酵の旨味</span>
+        <span class="hero-tag">⏱ たった10分</span>
+      </div>
+    </div>
+    <div class="scroll-hint"><span>SCROLL</span><div class="scroll-line"></div></div>
+  </section>
+
+  <!-- SEC2: WHAT IS -->
+  <section id="what-is" class="section">
+    <div class="section-inner">
+      <div class="section-label"><span class="section-num">01</span><span class="section-line"></span></div>
+      <h2 class="section-title reveal">醤油麹とは？<br><em>発酵が生む、奇跡の調味料</em></h2>
+      <div class="section-body reveal delay-1">
+        <p>醤油麹は、米麹を醤油で仕込んだ発酵調味料です。通常の醤油と比べて<strong>旨味成分（グルタミン酸）が約10倍</strong>。素材にまとわせるだけで、プロの味わいが生まれます。</p>
+        <p style="margin-top:12px;">化学調味料や保存料は一切不使用。麹の酵素が素材のたんぱく質を分解し、自然な甘みと深い旨味を引き出します。</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal delay-1">
+          <div class="feature-icon">🧬</div>
+          <h3>旨味10倍</h3>
+          <p>麹の酵素がグルタミン酸を凝縮。少量で深い味わいに。</p>
+        </div>
+        <div class="feature-card reveal delay-2">
+          <div class="feature-icon">🌿</div>
+          <h3>完全無添加</h3>
+          <p>原材料は米麹と醤油だけ。お子様にも安心です。</p>
+        </div>
+        <div class="feature-card reveal delay-3">
+          <div class="feature-icon">✨</div>
+          <h3>万能調味料</h3>
+          <p>漬け・炒め・かけるだけ。あらゆる料理に使えます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEC3: SIZZLE -->
+  <section id="sizzle" class="section">
+    <div class="section-inner">
+      <div class="section-label"><span class="section-num">02</span><span class="section-line"></span></div>
+      <h2 class="section-title reveal">漬けて、焼くだけ。<br><em>この照りと香りを、ご家庭で。</em></h2>
+      <img src="images/grilled-fish.png" alt="醤油麹で焼き上げた魚" class="sizzle-img reveal" />
+      <div class="sizzle-text reveal delay-1">
+        <p>醤油麹をまとった魚を焼くと、キッチンに<strong>香ばしい醤油の香り</strong>が広がります。</p>
+        <p style="margin-top:12px;">麹の酵素がたんぱく質を分解することで、ふっくらと柔らかく、噛むほどに旨味があふれる仕上がりに。この<strong>美しい照り</strong>は醤油麹ならでは。</p>
+        <p style="margin-top:12px;">難しい技術は一切不要。漬けて焼くだけで、料亭のような一皿が完成します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEC4: STORY -->
+  <section id="story" class="section">
+    <div class="section-inner">
+      <div class="section-label"><span class="section-num">03</span><span class="section-line"></span></div>
+      <h2 class="section-title reveal">なぜ、醤油麹を<br><em>作り続けるのか。</em></h2>
+      <div class="story-grid reveal delay-1">
+        <img src="images/chef-portrait.png" alt="作り手の写真" class="story-portrait" />
+        <div class="story-text">
+          <p>日頃から身体と向き合う仕事をする中で、「食べるもの」がいかに大切かを痛感してきました。</p>
+          <p>市販の調味料の裏面を見ると、見慣れない添加物がずらり。「もっとシンプルに、安心して使えるものはないか」と考えたとき、出会ったのが醤油麹でした。</p>
+          <p>米麹と醤油だけ。たったそれだけで、驚くほどの旨味が生まれる。この感動を、大切な人たちにも届けたい。そんな想いで、一つひとつ丁寧に手作りしています。</p>
+          <p class="story-signature">— YUKI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEC5: GUIDE -->
+  <section id="guide" class="section">
+    <div class="section-inner">
+      <div class="section-label"><span class="section-num">04</span><span class="section-line"></span></div>
+      <h2 class="section-title reveal">こんな使い方も。<br><em>毎日の食卓が変わります。</em></h2>
+      <div class="section-body reveal"><p>醤油麹は魚だけのものではありません。いつもの料理に「ちょい足し」するだけで、ワンランク上の味わいに。</p></div>
+      <div class="recipe-grid">
+        <div class="recipe-card reveal delay-1">
+          <div style="overflow:hidden"><img src="images/recipe-fish.png" alt="魚の漬け焼き" class="recipe-img" /></div>
+          <div class="recipe-content">
+            <h3>魚の漬け焼き</h3>
+            <p>切り身に塗って10分。焼くだけで照り焼き風に。</p>
+            <span class="recipe-tag">定番・おすすめ</span>
+          </div>
+        </div>
+        <div class="recipe-card reveal delay-2">
+          <div style="overflow:hidden"><img src="images/recipe-meat.png" alt="肉の下味" class="recipe-img" /></div>
+          <div class="recipe-content">
+            <h3>肉の下味</h3>
+            <p>鶏肉や豚肉に揉み込めば、柔らかジューシーに。</p>
+            <span class="recipe-tag">時短おかず</span>
+          </div>
+        </div>
+        <div class="recipe-card reveal delay-3">
+          <div style="overflow:hidden"><img src="images/recipe-egg.png" alt="卵かけご飯" class="recipe-img" /></div>
+          <div class="recipe-content">
+            <h3>卵かけご飯</h3>
+            <p>醤油の代わりにひと回し。旨味が段違い。</p>
+            <span class="recipe-tag">朝ごはんに</span>
+          </div>
+        </div>
+        <div class="recipe-card reveal delay-4">
+          <div style="overflow:hidden;display:flex;align-items:center;justify-content:center;height:160px;background:linear-gradient(135deg,var(--kinari),var(--beige));"><span style="font-size:3.5rem;">🥬</span></div>
+          <div class="recipe-content">
+            <h3>野菜の浅漬け</h3>
+            <p>きゅうりや大根に和えて30分。即席おつまみに。</p>
+            <span class="recipe-tag">あと一品に</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEC6: PRODUCT -->
+  <section id="product" class="section">
+    <div class="section-inner">
+      <div class="section-label"><span class="section-num">05</span><span class="section-line"></span></div>
+      <h2 class="section-title reveal">商品詳細</h2>
+      <table class="product-table reveal">
+        <tr><th>商品名</th><td>手作り醤油麹</td></tr>
+        <tr><th>原材料</th><td>米麹、醤油（大豆・小麦を含む）</td></tr>
+        <tr><th>内容量</th><td>150g</td></tr>
+        <tr><th>賞味期限</th><td>冷蔵保存で約1ヶ月</td></tr>
+        <tr><th>保存方法</th><td>要冷蔵（10℃以下）</td></tr>
+        <tr><th>価格</th><td><span class="price-highlight">¥1,000</span><span class="price-tax">（税込）</span></td></tr>
+        <tr><th>お届け方法</th><td>手渡し ／ 郵送（送料別途ご相談）</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SEC7: CTA -->
+  <section id="cta" class="section">
+    <div class="section-inner">
+      <h2 class="section-title reveal" style="font-size:clamp(1.4rem,4vw,2rem);">ご注文・お問い合わせ</h2>
+      <p class="cta-sub reveal delay-1">お気軽にどうぞ。ご質問だけでも大歓迎です。</p>
+      <div class="cta-buttons reveal delay-2">
+        <a href="#" class="cta-btn cta-btn-line" id="cta-line" onclick="alert('LINE公式アカウントは現在作成中です。もうしばらくお待ちください。'); return false;">
+          <span class="cta-btn-icon">💬</span>LINEで注文する（準備中）
+        </a>
+        <a href="order-form.html" class="cta-btn cta-btn-form" id="cta-form">
+          <span class="cta-btn-icon">📝</span>フォームで注文する
+        </a>
+        <a href="#" class="cta-btn cta-btn-ask" id="cta-ask" onclick="alert('LINE公式アカウントは現在作成中です。もうしばらくお待ちください。'); return false;">
+          <span class="cta-btn-icon">❓</span>質問・相談する
+        </a>
+      </div>
+      <p class="cta-note reveal delay-3">※ LINE公式アカウントは現在準備中です</p>
+    </div>
+  </section>
+
+  <!-- FLOATING CTA -->
+  <a href="#cta" class="float-cta" id="float-cta">🫙 ご注文はこちら</a>
+
+  <footer><p>&copy; 2026 手作り醤油麹 by YUKI</p></footer>
+
+  <script>
+    // Scroll reveal (supports all reveal types)
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => obs.observe(el));
+
+    // Floating CTA
+    const floatCta = document.getElementById('float-cta');
+    window.addEventListener('scroll', () => {
+      floatCta.classList.toggle('show', window.scrollY > 600);
+    });
+
+    // Parallax hero background
+    const heroBg = document.getElementById('hero-bg');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) heroBg.style.transform = 'translateY(' + y * 0.3 + 'px) scale(1.1)';
+    });
+    heroBg.style.transform = 'scale(1.1)';
+  </script>
+</body>
+</html>

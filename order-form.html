@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ご注文フォーム | 手作り醤油麹</title>
+  <meta name="description" content="手作り醤油麹のご注文フォームです。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brown-deep: #3a1f0d; --brown: #4a2c17; --brown-mid: #6b4226;
+      --kinari: #f5eed6; --beige: #faf6ec; --white: #faf8f3;
+      --gold: #b8943a; --ink: #2a2016; --ink-soft: #4a3f33; --ink-light: #7a7060;
+      --font-serif: 'Zen Old Mincho', serif; --font-sans: 'Noto Sans JP', sans-serif;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body { font-family: var(--font-sans); background: var(--beige); color: var(--ink-soft); line-height: 1.8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
+
+    .form-container { width: 100%; max-width: 520px; background: #fff; border-radius: var(--radius-lg); padding: clamp(32px,6vw,48px); box-shadow: 0 8px 32px rgba(74,44,23,.1); }
+    .form-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px; font-size: .85rem; color: var(--ink-light); text-decoration: none; transition: color .2s; }
+    .form-back:hover { color: var(--brown); }
+    .form-title { font-family: var(--font-serif); font-size: 1.5rem; color: var(--brown-deep); margin-bottom: 8px; }
+    .form-sub { font-size: .88rem; color: var(--ink-light); margin-bottom: 32px; }
+
+    .form-group { margin-bottom: 24px; }
+    .form-label { display: block; font-size: .85rem; font-weight: 500; color: var(--brown-deep); margin-bottom: 6px; }
+    .form-label .required { color: #c0392b; font-size: .75rem; margin-left: 4px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 12px 16px; border: 1px solid rgba(74,44,23,.15); border-radius: 8px;
+      font-family: var(--font-sans); font-size: .95rem; color: var(--ink); background: var(--white);
+      transition: border-color .2s, box-shadow .2s; outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--brown); box-shadow: 0 0 0 3px rgba(74,44,23,.08); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-select { cursor: pointer; }
+
+    .form-radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
+    .form-radio { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: .92rem; }
+    .form-radio input { accent-color: var(--brown); width: 18px; height: 18px; }
+
+    .form-submit {
+      width: 100%; padding: 16px; border: none; border-radius: var(--radius);
+      background: var(--brown); color: #fff; font-family: var(--font-sans);
+      font-size: 1rem; font-weight: 700; letter-spacing: .08em; cursor: pointer;
+      transition: background .3s, transform .3s; margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--brown-deep); transform: translateY(-2px); }
+
+    .form-note { text-align: center; margin-top: 16px; font-size: .78rem; color: var(--ink-light); }
+    .form-success { display: none; text-align: center; padding: 40px 20px; }
+    .form-success h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--brown-deep); margin-bottom: 12px; }
+    .form-success p { font-size: .92rem; color: var(--ink-soft); line-height: 2; }
+    .form-success .back-btn { display: inline-block; margin-top: 24px; padding: 12px 28px; background: var(--brown); color: #fff; text-decoration: none; border-radius: 8px; font-size: .9rem; transition: background .3s; }
+    .form-success .back-btn:hover { background: var(--brown-deep); }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <a href="shoyu-koji.html" class="form-back">← 商品ページに戻る</a>
+    <h1 class="form-title">🫙 ご注文フォーム</h1>
+    <p class="form-sub">以下をご入力ください。確認後、ご連絡いたします。</p>
+
+    <form id="order-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">お名前<span class="required">*必須</span></label>
+        <input type="text" class="form-input" name="name" required placeholder="例：山田 太郎" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">ご連絡先（電話番号 or メール）<span class="required">*必須</span></label>
+        <input type="text" class="form-input" name="contact" required placeholder="例：090-1234-5678" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">ご注文数<span class="required">*必須</span></label>
+        <select class="form-select" name="quantity" required>
+          <option value="">選択してください</option>
+          <option value="1">1パック（¥1,000）</option>
+          <option value="2">2パック（¥2,000）</option>
+          <option value="3">3パック（¥3,000）</option>
+          <option value="4">4パック（¥4,000）</option>
+          <option value="5">5パック以上（備考欄にご希望数を記入）</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">受け取り方法<span class="required">*必須</span></label>
+        <div class="form-radio-group">
+          <label class="form-radio"><input type="radio" name="delivery" value="手渡し" required />手渡し</label>
+          <label class="form-radio"><input type="radio" name="delivery" value="郵送" />郵送（送料別途）</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">備考（任意）</label>
+        <textarea class="form-textarea" name="note" placeholder="ご質問やご要望があればどうぞ"></textarea>
+      </div>
+      <button type="submit" class="form-submit">注文を送信する</button>
+      <p class="form-note">※ 送信後、確認のご連絡をいたします</p>
+    </form>
+
+    <div class="form-success" id="success-msg">
+      <h2>✅ ご注文ありがとうございます！</h2>
+      <p>内容を確認のうえ、ご連絡いたします。<br>しばらくお待ちください。</p>
+      <a href="shoyu-koji.html" class="back-btn">商品ページに戻る</a>
+    </div>
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('order-form');
+      const data = new FormData(form);
+      // Log order details (in production, send to a backend)
+      console.log('Order submitted:', Object.fromEntries(data));
+      form.style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
